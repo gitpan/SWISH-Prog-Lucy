@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               SWISH-Prog-Lucy
-version:            0.02
+version:            0.03
 abstract:           Swish3 Apache Lucy backend
 author:
     - Peter Karman <karman at cpan dot org>
