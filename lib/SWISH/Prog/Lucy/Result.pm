@@ -2,11 +2,13 @@ package SWISH::Prog::Lucy::Result;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use base qw( SWISH::Prog::Result );
 use SWISH::3 ':constants';
 use Carp;
+
+__PACKAGE__->mk_accessors(qw( relevant_fields ));
 
 =head1 NAME
 
@@ -25,6 +27,12 @@ class for Swish3.
 
 Only new and overridden methods are documented here. See
 the L<SWISH::Prog::Result> documentation.
+
+=head2 relevant_fields
+
+Returns an ARRAY ref of the field names in the result 
+that matched the query. Will only be populated if
+the Results object had find_relevant_fields() set to true.
 
 =cut
 

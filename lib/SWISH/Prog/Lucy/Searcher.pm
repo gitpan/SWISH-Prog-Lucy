@@ -2,7 +2,7 @@ package SWISH::Prog::Lucy::Searcher;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use base qw( SWISH::Prog::Searcher );
 
@@ -20,13 +20,24 @@ use Sort::SQL;
 use Search::Query;
 use Search::Query::Dialect::Lucy;
 
+__PACKAGE__->mk_accessors(qw( find_relevant_fields ));
+
 =head1 NAME
 
 SWISH::Prog::Lucy::Searcher - search Swish3 Lucy backend
 
 =head1 SYNOPSIS
-
- # see SWISH::Prog::Searcher
+ 
+ my $searcher = SWISH::Prog::Lucy::Searcher->new(
+     invindex             => 'path/to/index',
+     max_hits             => 1000,
+     find_relevant_fields => 1,   # default: 0
+ );
+                
+ my $results = $searcher->search( 'foo bar' );
+ while (my $result = $results->next) {
+     printf("%4d %s\n", $result->score, $result->uri);
+ }
 
 =head1 DESCRIPTION
 
@@ -48,7 +59,16 @@ the L<SWISH::Prog::Searcher> documentation.
 
 =head2 init
 
-Called internally by new().
+Called internally by new(). Additional parameters include:
+
+=over
+
+=item find_relevant_fields I<1|0>
+
+Set to true to have the Results object locate the fields
+that matched the query. Default is 0 (off).
+
+=back
 
 =cut
 
@@ -298,13 +318,17 @@ sub search {
     $self->debug
         and carp "search in $lucy for '$parsed_query' : "
         . dump( \%hits_args );
-    my $hits    = $lucy->hits(%hits_args);
-    my $results = SWISH::Prog::Lucy::Results->new(
-        hits      => $hits->total_hits,
-        lucy_hits => $hits,
-        query     => $parsed_query,
+    my $compiler = $hits_args{query}->make_compiler( searcher => $lucy );
+    my $hits     = $lucy->hits(%hits_args);
+    my $results  = SWISH::Prog::Lucy::Results->new(
+        hits                 => $hits->total_hits,
+        lucy_hits            => $hits,
+        query                => $parsed_query,
+        find_relevant_fields => $self->find_relevant_fields,
     );
-    $results->{_args} = \%hits_args;
+    $results->{_compiler} = $compiler;
+    $results->{_searcher} = $lucy;
+    $results->{_args}     = \%hits_args;
     return $results;
 }
 
