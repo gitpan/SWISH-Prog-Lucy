@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               SWISH-Prog-Lucy
-version:            0.05
+version:            0.06
 abstract:           Swish3 Apache Lucy backend
 author:
     - Peter Karman <karman at cpan dot org>
@@ -19,8 +19,8 @@ requires:
     Search::Query:        0.17
     Search::Query::Dialect::Lucy:  0.03
     Sort::SQL:            0.06
-    SWISH::3:             0.11
-    SWISH::Prog:          0.52
+    SWISH::3:             1
+    SWISH::Prog:          0.53
     Test::More:           0
 resources:
     bugtracker:  http://rt.cpan.org/NoAuth/Bugs.html?Dist=SWISH-Prog-Lucy
