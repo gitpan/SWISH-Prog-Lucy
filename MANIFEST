@@ -1,4 +1,5 @@
 Changes
+bin/lucyx-dump-terms
 lib/SWISH/Prog/Lucy.pm
 lib/SWISH/Prog/Lucy/Indexer.pm
 lib/SWISH/Prog/Lucy/InvIndex.pm
@@ -21,4 +22,3 @@ t/pod.t
 t/test.conf
 t/test.html
 t/test.xml
-META.yml                                 Module meta-data (added by MakeMaker)

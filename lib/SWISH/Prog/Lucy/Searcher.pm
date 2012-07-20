@@ -2,13 +2,14 @@ package SWISH::Prog::Lucy::Searcher;
 use strict;
 use warnings;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 use base qw( SWISH::Prog::Searcher );
 
 use Carp;
 use SWISH::3 qw( :constants );
 use SWISH::Prog::Lucy::Results;
+use Sys::Hostname qw( hostname );
 use Lucy::Search::IndexSearcher;
 use Lucy::Search::PolySearcher;
 use Lucy::Analysis::PolyAnalyzer;
@@ -337,8 +338,12 @@ sub search {
     $hits_args{query} = $parsed_query->as_lucy_query;
     my $lucy = $self->get_lucy();
     $self->debug
-        and carp "search in $lucy for '$parsed_query' : "
-        . dump( \%hits_args );
+        and carp sprintf(
+        "search in %s for [raw] '%s' [lucy] '%s' : %s",
+        $lucy, $parsed_query,
+        $hits_args{query}->to_string(),
+        dump( \%hits_args )
+        );
     my $compiler = $hits_args{query}->make_compiler( searcher => $lucy );
     my $hits     = $lucy->hits(%hits_args);
     my $results  = SWISH::Prog::Lucy::Results->new(
@@ -394,8 +399,14 @@ sub get_lucy {
 sub _open_lucy {
     my $self = shift;
     my @searchers;
+    my $hostname = hostname() or croak "Can't get unique hostname";
+    my $manager = Lucy::Index::IndexManager->new( host => $hostname );
     for my $idx ( @{ $self->invindex } ) {
-        my $searcher = Lucy::Search::IndexSearcher->new( index => "$idx" );
+        my $reader = Lucy::Index::IndexReader->open(
+            index   => "$idx",
+            manager => $manager,
+        );
+        my $searcher = Lucy::Search::IndexSearcher->new( index => $reader, );
         push @searchers, $searcher;
     }
 
