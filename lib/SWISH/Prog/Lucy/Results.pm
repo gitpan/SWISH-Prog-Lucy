@@ -2,7 +2,7 @@ package SWISH::Prog::Lucy::Results;
 use strict;
 use warnings;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 use base qw( SWISH::Prog::Results );
 use SWISH::Prog::Lucy::Result;
@@ -74,7 +74,9 @@ sub next {
         relevant_fields => \@relevant_fields,
         doc             => $hit,
         property_map    => $_[0]->{property_map},
-        score => int( $hit->get_score * 1000 ),   # scale like xapian, swish-e
+
+        # scale like xapian, swish-e
+        score => ( int( $hit->get_score * 1000 ) || 1 ),
     );
 }
 
