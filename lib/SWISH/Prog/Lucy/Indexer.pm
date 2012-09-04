@@ -2,7 +2,7 @@ package SWISH::Prog::Lucy::Indexer;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use base qw( SWISH::Prog::Indexer );
 use SWISH::Prog::Lucy::InvIndex;
@@ -507,7 +507,7 @@ sub finish {
     $self->SUPER::finish(@_);
 
     $self->{_is_finished} = 1;
-    
+
     $self->debug and carp "$doc_count docs indexed";
 
     return $doc_count;
@@ -521,6 +521,22 @@ Returns the internal Lucy::Index::Indexer object.
 
 sub get_lucy {
     return shift->{lucy};
+}
+
+=head2 abort
+
+Sets the internal Lucy::Index::Indexer to undef,
+which should release any locks on the index.
+Also flags the SWISH::Prog::Lucy::Indexer object
+as stale.
+
+=cut
+
+sub abort {
+    my $self = shift;
+    $self->{lucy}         = undef;
+    $self->{_is_finished} = 1;
+    $self->{s3}           = undef;
 }
 
 1;

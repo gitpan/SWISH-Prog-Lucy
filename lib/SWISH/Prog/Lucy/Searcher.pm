@@ -2,7 +2,7 @@ package SWISH::Prog::Lucy::Searcher;
 use strict;
 use warnings;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use base qw( SWISH::Prog::Searcher );
 
@@ -89,7 +89,7 @@ sub init {
     # cache the meta file stat(), to test if it changes
     # while the searcher is open. See get_lucy()
     $self->{swish_xml}
-        = Path::Class::File::Stat->new( $invindex->meta->file );
+        = Path::Class::File::Stat->new( $invindex->meta_file );
     $self->{swish_xml}->use_md5();    # slower but better
     $self->{_uuid} = $config->Index->{UUID} || "LUCY_NO_UUID";
 
