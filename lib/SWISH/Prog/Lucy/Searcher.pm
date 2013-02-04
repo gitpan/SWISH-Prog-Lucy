@@ -2,7 +2,7 @@ package SWISH::Prog::Lucy::Searcher;
 use strict;
 use warnings;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 use base qw( SWISH::Prog::Searcher );
 
@@ -82,7 +82,7 @@ You can get/set the internal parser with the qp() method as well.
 
 =item nfs_mode I<1|0>
 
-Set to true if your index sites on a NFS filesystem. Extra locking
+Set to true if your index is stored on a NFS filesystem. Extra locking
 precautions are implemented when this mode is on (1). Default is off
 (0).
 
@@ -114,7 +114,8 @@ sub init {
     my $metanames   = $config->MetaNames;
     my $field_names = [ keys %$metanames ];
     my %fieldtypes;
-    for my $name (@$field_names) {
+    my $doc_prop_map = SWISH_DOC_PROP_MAP();
+    for my $name ( ( @$field_names, keys %$doc_prop_map ) ) {
         $fieldtypes{$name} = {
             type     => $schema->fetch_type($name),
             analyzer => $schema->fetch_analyzer($name)
