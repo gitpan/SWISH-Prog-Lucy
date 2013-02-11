@@ -4,7 +4,7 @@
       "Peter Karman, C<< <karman at cpan.org> >>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.112150",
+   "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.120530",
    "license" : [
       "unknown"
    ],
@@ -34,15 +34,15 @@
          "requires" : {
             "Lucy" : "0.003002",
             "LucyX::Search::WildcardQuery" : "0.03",
-            "Path::Class::File::Lockable" : 0,
+            "Path::Class::File::Lockable" : "0",
             "Path::Class::File::Stat" : "0.03",
             "SWISH::3" : "1.000002",
             "SWISH::Prog" : "0.62",
             "Search::Query" : "0.17",
             "Search::Query::Dialect::Lucy" : "0.04",
             "Sort::SQL" : "0.06",
-            "Sys::Hostname" : 0,
-            "Test::More" : 0,
+            "Sys::Hostname" : "0",
+            "Test::More" : "0",
             "perl" : "5.008003"
          }
       }
