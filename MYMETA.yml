@@ -22,7 +22,7 @@ requires:
   LucyX::Search::WildcardQuery: 0.03
   Path::Class::File::Lockable: 0
   Path::Class::File::Stat: 0.03
-  SWISH::3: 1.000002
+  SWISH::3: 1.000006
   SWISH::Prog: 0.62
   Search::Query: 0.17
   Search::Query::Dialect::Lucy: 0.04
@@ -35,4 +35,4 @@ resources:
   homepage: http://dev.swish-e.org/wiki/perl
   license: http://opensource.org/licenses/gpl-license.php
   repository: http://svn.swish-e.org/perl/SWISH-Prog-Lucy/
-version: 0.15
+version: 0.16
