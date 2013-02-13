@@ -35,4 +35,4 @@ resources:
   homepage: http://dev.swish-e.org/wiki/perl
   license: http://opensource.org/licenses/gpl-license.php
   repository: http://svn.swish-e.org/perl/SWISH-Prog-Lucy/
-version: 0.14
+version: 0.15
