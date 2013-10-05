@@ -20,7 +20,7 @@ no_index:
     - t
 requires:
   Lucy: 0.003002
-  LucyX::Search::WildcardQuery: 0.03
+  LucyX::Search::WildcardQuery: 0.05
   Path::Class::File::Lockable: 0
   Path::Class::File::Stat: 0.03
   SWISH::3: 1.000006
@@ -36,4 +36,4 @@ resources:
   homepage: http://dev.swish-e.org/wiki/perl
   license: http://opensource.org/licenses/gpl-license.php
   repository: http://svn.swish-e.org/perl/SWISH-Prog-Lucy/
-version: 0.17
+version: 0.18

@@ -2,7 +2,7 @@ package SWISH::Prog::Lucy::Searcher;
 use strict;
 use warnings;
 
-our $VERSION = '0.17';
+our $VERSION = '0.18';
 
 use base qw( SWISH::Prog::Searcher );
 
@@ -372,7 +372,7 @@ sub search {
         and carp sprintf(
         "search in %s for [raw] '%s' [lucy] '%s' : %s",
         $lucy, $parsed_query,
-        $hits_args{query}->to_string(),
+        dump( $hits_args{query}->dump() ),
         dump( \%hits_args )
         );
     my $compiler = $hits_args{query}->make_compiler( searcher => $lucy );
