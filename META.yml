@@ -24,7 +24,7 @@ requires:
   Path::Class::File::Lockable: 0
   Path::Class::File::Stat: 0.03
   SWISH::3: 1.000006
-  SWISH::Prog: 0.62
+  SWISH::Prog: 0.75
   Search::Query: 0.17
   Search::Query::Dialect::Lucy: 0.04
   Sort::SQL: 0.06
@@ -36,4 +36,4 @@ resources:
   homepage: http://dev.swish-e.org/wiki/perl
   license: http://opensource.org/licenses/gpl-license.php
   repository: http://svn.swish-e.org/perl/SWISH-Prog-Lucy/
-version: 0.18
+version: 0.19
