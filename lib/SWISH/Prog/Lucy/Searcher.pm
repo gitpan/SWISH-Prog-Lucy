@@ -2,7 +2,7 @@ package SWISH::Prog::Lucy::Searcher;
 use strict;
 use warnings;
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 
 use base qw( SWISH::Prog::Searcher );
 
@@ -137,10 +137,12 @@ sub _init_lucy {
     my $schema = $self->get_lucy()->get_schema();
 
     my $metanames   = $config->MetaNames;
-    my $field_names = [ keys %$metanames ];
+    my $propnames   = $config->PropertyNames;
+    my $field_names = [ keys %$metanames, keys %$propnames ];
     my %fieldtypes;
     my $doc_prop_map = SWISH_DOC_PROP_MAP();
     for my $name ( ( @$field_names, keys %$doc_prop_map ) ) {
+        next if exists $fieldtypes{$name};
         $fieldtypes{$name} = {
             type     => $schema->fetch_type($name),
             analyzer => $schema->fetch_analyzer($name)
@@ -170,6 +172,8 @@ sub _init_lucy {
     else {
         $self->{qp} = $self->{_initial_qp};
     }
+
+    $self->debug and warn dump $self;
 
     return $self;
 }
@@ -385,11 +389,30 @@ sub search {
         query                => $parsed_query,
         find_relevant_fields => $self->find_relevant_fields,
         property_map         => $self->{_prop_map},
+        id                   => $self->get_unique_id,
     );
     $results->{_compiler} = $compiler;
     $results->{_searcher} = $lucy;
     $results->{_args}     = \%hits_args;
     return $results;
+}
+
+=head2 get_unique_id
+
+Returns string of all concatenated UUID values from the Searcher's invindex meta
+descriptions.
+
+=cut
+
+sub get_unique_id {
+    my $self = shift;
+    my @uuids;
+    my $i = 0;
+    for my $idx ( @{ $self->invindex } ) {
+        push @uuids,
+            ( $idx->meta->Index->{UUID} || $self->{_uuid}->[ $i++ ] );
+    }
+    return join( ',', @uuids );
 }
 
 =head2 get_lucy
